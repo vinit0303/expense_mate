@@ -62,7 +62,6 @@ class _UserImagePickerState extends BaseState<UserImagePicker> {
     storageRef.putFile(_pickedImageFile!);
     url = await storageRef.getDownloadURL();
     widget.bloc.url.add(url);
-    print('url:$url');
   }
 
   @override
@@ -70,7 +69,6 @@ class _UserImagePickerState extends BaseState<UserImagePicker> {
     return StreamBuilder(
       stream: widget.bloc.url,
       builder: (context, snapshot) {
-        print(snapshot.data);
         return InkWell(
             onTap: _pickImage,
             child: snapshot.data?.trim().isNotEmpty ?? false

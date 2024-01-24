@@ -40,7 +40,7 @@ class RemoteDataSource implements UserDataSource {
     FirebaseStorage.instance
         .ref()
         .child('user_images')
-        .child('${id}.jpg')
+        .child('$id.jpg')
         .delete()
         .whenComplete(() {
       FirebaseAuth.instance.signOut();

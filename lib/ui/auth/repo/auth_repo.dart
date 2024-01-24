@@ -10,7 +10,6 @@ class AuthRepo {
   //mock datasource
   // AuthDataSource get _getDataSource => MockDataSource();
 
-  //TODO: - Replace with remote datasource for actual api call
   // //Remote server api call datasource
   AuthDataSource get _getDataSource => RemoteDataSource();
 
