@@ -107,7 +107,7 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '₹{4900}',
+                                    '₹{49000}',
                                     style: AppTextStyles.extrabold(
                                         fontSize: 24,
                                         color: ColorConst.appbluecolor),
