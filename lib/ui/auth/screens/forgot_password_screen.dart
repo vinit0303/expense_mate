@@ -65,6 +65,7 @@ class _ForgotPasswordScreenState extends BaseState<ForgotPasswordScreen> {
                 48.vs,
                 AppTextFormFields(
                   controller: _emailorphoneCTR,
+                  textInputType: TextInputType.emailAddress,
                   hint: "Email/Phone",
                   showError: true,
                   focusNode: _focusnodeEmail,

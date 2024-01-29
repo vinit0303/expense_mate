@@ -90,14 +90,3 @@ class _UserImagePickerState extends BaseState<UserImagePicker> {
     return widget.bloc;
   }
 }
-
-
-//  CircleAvatar(
-//         radius: 40,
-//         backgroundColor: ColorConst.whiteblue,
-//         foregroundImage:
-//             _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
-//       ),
-
-
-

@@ -1,5 +1,3 @@
-import 'package:expense_manager/base/base_bloc.dart';
-import 'package:expense_manager/base/base_stateful_widget.dart';
 import 'package:expense_manager/utils/color_const.dart';
 import 'package:expense_manager/utils/extensions.dart';
 import 'package:expense_manager/utils/list.dart';
@@ -14,16 +12,15 @@ class CustomLineChart extends StatefulWidget {
   State<CustomLineChart> createState() => _CustomLineChartState();
 }
 
-class _CustomLineChartState extends BaseState<CustomLineChart> {
+class _CustomLineChartState extends State<CustomLineChart> {
   double interval = 0;
   GraphList graphList = GraphList();
   @override
   void initState() {
     graphList.l();
-     if (graphList.maxamount < 1000) {
+    if (graphList.maxamount < 1000) {
       interval = ((graphList.maxamount / 100).ceil()) * 10;
-    }
-    else if (graphList.maxamount >= 1000) {
+    } else if (graphList.maxamount >= 1000) {
       interval = ((graphList.maxamount / 1000).ceil()) * 100;
     }
     super.initState();
@@ -143,10 +140,5 @@ class _CustomLineChartState extends BaseState<CustomLineChart> {
         ),
       ],
     );
-  }
-
-  @override
-  BaseBloc? getBaseBloc() {
-    throw UnimplementedError();
   }
 }

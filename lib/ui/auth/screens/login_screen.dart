@@ -41,20 +41,23 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   64.vs,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(ImageConsts.walletLogo, height: 54)
-                          .allp(9.37),
-                      17.hs,
-                      Expanded(
-                        child: Text(
-                          'Expense Mate',
-                          style: AppTextStyles.bold(
-                              fontSize: 32, color: ColorConst.appbluecolor),
-                        ),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(ImageConsts.walletLogo, height: 54)
+                            .allp(9.37),
+                        17.hs,
+                        Expanded(
+                          child: Text(
+                            'Expense Mate',
+                            style: AppTextStyles.bold(
+                                fontSize: 32, color: ColorConst.appbluecolor),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   28.vs,
                   RichText(
@@ -71,6 +74,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                   AppTextFormFields(
                     padding: EdgeInsets.zero,
                     controller: _emailorphoneCTR,
+                    textInputType: TextInputType.emailAddress,
                     hint: "Email/Phone",
                     showError: true,
                     focusNode: _focusnodeEmail,
@@ -81,6 +85,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                   AppTextFormFields(
                     padding: EdgeInsets.zero,
                     controller: _passwordCTR,
+                    textInputType: TextInputType.visiblePassword,
                     hint: 'Password',
                     showError: true,
                     obscureText: !isPasswordVisible,

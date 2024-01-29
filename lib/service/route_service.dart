@@ -2,7 +2,7 @@ import 'package:expense_manager/ui/auth/screens/forgot_password_screen.dart';
 import 'package:expense_manager/ui/auth/screens/login_screen.dart';
 import 'package:expense_manager/ui/auth/screens/signup_screen.dart';
 import 'package:expense_manager/ui/auth/screens/splash_screen.dart';
-import 'package:expense_manager/ui/dashboard/dashboard.dart';
+import 'package:expense_manager/ui/dashboard/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 class RouteConstants {

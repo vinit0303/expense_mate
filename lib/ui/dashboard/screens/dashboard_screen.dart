@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_manager/base/base_bloc.dart';
 import 'package:expense_manager/base/base_stateful_widget.dart';
-import 'package:expense_manager/utils/global_var.dart';
+import 'package:expense_manager/ui/dashboard/bloc/dashboard_sccreen_bloc.dart';
 import 'package:expense_manager/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_manager/utils/color_const.dart';
@@ -17,27 +16,29 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends BaseState<DashboardScreen> {
-  String name = '';
-  bool _seemore = false;
+  final DashboardBloc _dashboardBloc = DashboardBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    _dashboardBloc.getuserDetail();
+  }
+
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore.instance
-        .collection('User')
-        .doc(UserId.id)
-        .get()
-        .then((value) {
-      setState(() {
-        name = value.data()!['userName'];
-      });
-    });
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Hello ${name.toUpperCase()}✌️',
-          style:
-              AppTextStyles.bold(fontSize: 20, color: ColorConst.primaryWhite),
-        ).lp(0).tp(0),
+        title: StreamBuilder(
+          stream: _dashboardBloc.dasboardstate,
+          builder: (context, snapshot) {
+            String name = snapshot.data?.data?.userName ?? '';
+            return Text(
+              'Hello ${name.toUpperCase()}✌️',
+              style: AppTextStyles.bold(
+                  fontSize: 20, color: ColorConst.primaryWhite),
+            ).lp(0).tp(0);
+          },
+        ),
         actions: [
           InkWell(
               onTap: () {},
@@ -183,127 +184,134 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                       ],
                     )).hp(16),
                 10.vs,
-                Container(
-                  height: _seemore ? 372 : 272,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: ColorConst.primaryWhite,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: ColorConst.dividercolor,
-                        blurRadius: 10.0,
-                      ), //BoxShadow
-                      //BoxShadow
-                    ],
-                  ),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Expenses',
-                          style: AppTextStyles.bold(fontSize: 16),
-                        ),
-                        const Icon(Icons.menu)
-                      ],
-                    ).allp(8),
-                    const Divider(
-                      height: 0,
-                      color: ColorConst.appgreycolor,
-                      thickness: 0,
-                    ).hp(8),
-                    8.vs,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'This Month',
-                          style: AppTextStyles.regular(
-                              fontSize: 12, color: ColorConst.appgreycolor),
-                        ),
-                      ],
-                    ).hp(8),
-                    12.vs,
-                    SizedBox(
-                      height: _seemore ? 270 : 170,
-                      child: ListView.builder(
-                        physics: _seemore
-                            ? const AlwaysScrollableScrollPhysics()
-                            : const NeverScrollableScrollPhysics(),
-                        itemCount: 6,
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(ImageConsts.bag),
-                              12.hs,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Shopping',
-                                    style: AppTextStyles.bold(fontSize: 12),
-                                  ),
-                                  Text(
-                                    'Cash',
-                                    style: AppTextStyles.regular(
-                                        fontSize: 12,
-                                        color: ColorConst.appgreycolor),
-                                  ),
-                                  Text(
-                                    '"Trends"',
-                                    style: AppTextStyles.regular(
-                                        fontSize: 12,
-                                        color: ColorConst.appgreycolor),
-                                  ),
-                                ],
-                              ),
-                              const Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text('₹{470}',
-                                      style: AppTextStyles.bold(
-                                          fontSize: 16,
-                                          color: ColorConst.appredcolor)),
-                                  Text(
-                                    '{28 mar,2024}',
-                                    style: AppTextStyles.regular(
-                                        fontSize: 12,
-                                        color: ColorConst.appgreycolor),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ).hp(8).bp(8);
-                        },
+                StreamBuilder(
+                  stream: _dashboardBloc.seemore,
+                  builder: (context, snapshot) {
+                    return Container(
+                      height: _dashboardBloc.seemore.value ? 372 : 272,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: ColorConst.primaryWhite,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: ColorConst.dividercolor,
+                            blurRadius: 10.0,
+                          ), //BoxShadow
+                          //BoxShadow
+                        ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (_seemore == false) {
-                                _seemore = true;
-                              } else {
-                                _seemore = false;
-                              }
-                            });
-                          },
-                          child: Text(
-                            _seemore ? 'see less' : 'see more',
-                            style: AppTextStyles.bold(
-                                fontSize: 12, color: ColorConst.appbluecolor),
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Expenses',
+                              style: AppTextStyles.bold(fontSize: 16),
+                            ),
+                            const Icon(Icons.menu)
+                          ],
+                        ).allp(8),
+                        const Divider(
+                          height: 0,
+                          color: ColorConst.appgreycolor,
+                          thickness: 0,
+                        ).hp(8),
+                        8.vs,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'This Month',
+                              style: AppTextStyles.regular(
+                                  fontSize: 12, color: ColorConst.appgreycolor),
+                            ),
+                          ],
+                        ).hp(8),
+                        12.vs,
+                        SizedBox(
+                          height: _dashboardBloc.seemore.value ? 270 : 170,
+                          child: ListView.builder(
+                            physics: _dashboardBloc.seemore.value
+                                ? const BouncingScrollPhysics()
+                                : const NeverScrollableScrollPhysics(),
+                            itemCount: 6,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.asset(ImageConsts.bag),
+                                  12.hs,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Shopping',
+                                        style: AppTextStyles.bold(fontSize: 12),
+                                      ),
+                                      Text(
+                                        'Cash',
+                                        style: AppTextStyles.regular(
+                                            fontSize: 12,
+                                            color: ColorConst.appgreycolor),
+                                      ),
+                                      Text(
+                                        '"Trends"',
+                                        style: AppTextStyles.regular(
+                                            fontSize: 12,
+                                            color: ColorConst.appgreycolor),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('₹{470}',
+                                          style: AppTextStyles.bold(
+                                              fontSize: 16,
+                                              color: ColorConst.appredcolor)),
+                                      Text(
+                                        '{28 mar,2024}',
+                                        style: AppTextStyles.regular(
+                                            fontSize: 12,
+                                            color: ColorConst.appgreycolor),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ).hp(8).bp(8);
+                            },
                           ),
-                        )
-                      ],
-                    ).hp(8)
-                  ]),
-                ).hp(16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if (_dashboardBloc.seemore.value == false) {
+                                  _dashboardBloc.seemore.add(true);
+                                } else {
+                                  _dashboardBloc.seemore.add(false);
+                                }
+                              },
+                              child: Text(
+                                _dashboardBloc.seemore.value
+                                    ? 'see less'
+                                    : 'see more',
+                                style: AppTextStyles.bold(
+                                    fontSize: 12,
+                                    color: ColorConst.appbluecolor),
+                              ),
+                            )
+                          ],
+                        ).hp(8)
+                      ]),
+                    ).hp(16);
+                  },
+                ),
                 8.vs
               ],
             ),
@@ -315,6 +323,6 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
 
   @override
   BaseBloc? getBaseBloc() {
-    throw UnimplementedError();
+    return _dashboardBloc;
   }
 }

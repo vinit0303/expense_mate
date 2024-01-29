@@ -1,5 +1,5 @@
 import 'package:expense_manager/ui/activity/activity_screen.dart';
-import 'package:expense_manager/ui/dashboard/dashboard_screen.dart';
+import 'package:expense_manager/ui/dashboard/screens/dashboard_screen.dart';
 import 'package:expense_manager/ui/group/group_screen.dart';
 import 'package:expense_manager/ui/profile/screen/profile_screen.dart';
 import 'package:expense_manager/utils/image_const.dart';

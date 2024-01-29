@@ -75,6 +75,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                 48.vs,
                 AppTextFormFields(
                   controller: _emailorphoneCTR,
+                  textInputType: TextInputType.emailAddress,
                   hint: "Email",
                   showError: true,
                   focusNode: _focusnodeEmail,
@@ -92,6 +93,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                 24.vs,
                 AppTextFormFields(
                   controller: _passwordCTR,
+                  textInputType: TextInputType.visiblePassword,
                   hint: 'password',
                   showError: true,
                   obscureText: !isPasswordVisible,
@@ -115,6 +117,7 @@ class _SignupScreenState extends BaseState<SignupScreen> {
                 AppTextFormFields(
                   controller: _confpassword,
                   hint: 'Confirm Password',
+                  textInputType: TextInputType.visiblePassword,
                   showError: true,
                   obscureText: !isConfPasswordVisible,
                   validator: AppUtils.validateNotEmpty,
